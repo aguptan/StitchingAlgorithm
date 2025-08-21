@@ -1,0 +1,58 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+conda-env/
+.python-version
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs & temp
+*.log
+logs/
+tmp/
+temp/
+
+# Coverage / testing
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data & results (project-specific for stitching)
+data/
+datasets/
+cache/
+cached_matches/
+outputs/
+results/
+artifacts/
+figures/
+reports/
+checkpoints/
+*.ckpt
+*.npz
+*.npy
+
+# Backup configs
+*.yaml.backup
+*.yml.backup
