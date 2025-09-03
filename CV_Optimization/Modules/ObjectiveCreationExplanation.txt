@@ -1,0 +1,116 @@
+Got it — let’s zoom in on **`ObjectiveCreation.py`**, with special focus on the **multi-objective part**, since that’s the most nuanced piece of your pipeline.
+
+---
+
+# 🔎 **ObjectiveCreation.py Overview**
+
+This module defines how to **score the stitching pipeline** for Optuna.
+It provides two optimization modes:
+
+1. **Single-objective (`objective`)** → one scalar score.
+2. **Multi-objective (`multi_objective`)** → three separate normalized objectives.
+
+---
+
+# 1. **Scoring Building Blocks**
+
+* **Constraint error (RMS)**
+
+  * Measures how well the corrected coordinates satisfy SIFT displacement rules (`A·x ≈ b`).
+  * Lower = better alignment to match constraints.
+
+* **Displacement error (RMS)**
+
+  * Measures how far corrected coordinates deviate from original stage positions.
+  * Normalized by stage step size, so it’s dimensionless.
+  * Lower = less distortion of original geometry.
+
+* **Link dropout penalty**
+
+  * Fraction of expected neighbor connections that were lost (due to insufficient matches).
+  * Weighted more heavily for **cardinal directions** (up, down, left, right) than diagonals.
+  * Lower = better match coverage.
+
+* **Diagnostics (not always part of score):**
+
+  * Overlap similarity (via NCC).
+  * Number of links used vs dropped.
+  * Coverage statistics.
+
+---
+
+# 2. **Single-Objective Mode**
+
+**Function:** `objective(trial, …)`
+
+* Optuna samples hyperparameters (`lambda_reg`, `weight_method`, `ratio_thresh`, etc.).
+* Runs the pipeline across **inner folds** (nested CV).
+* Aggregates into one scalar score:
+
+  ```text
+  score = constraint_RMS + α * displacement_RMS + β * penalty
+  ```
+* Returns mean validation score → Optuna minimizes it.
+
+---
+
+# 3. **Multi-Objective Mode**
+
+**Function:** `multi_objective(trial, …)`
+
+Instead of collapsing everything into one score, this treats it as **three separate objectives**:
+
+1. **Constraint RMS (dimensionless)**
+
+   * Measures constraint satisfaction error per link.
+   * Normalized to make it independent of dataset size.
+
+2. **Normalized Displacement RMS**
+
+   * Ratio of coordinate correction vs. expected step size.
+   * Ensures fairness across datasets with different scales.
+
+3. **Drop Penalty Rate**
+
+   * Proportion of dropped links (0 → no links dropped, 1 → all links dropped).
+   * Captures robustness to weak matches.
+
+---
+
+### 🔹 How Multi-Objective Optimization Works Here
+
+* **Algorithm:** Optuna uses **NSGA-II** (a genetic algorithm for multi-objective search).
+
+* Instead of a single “best” score, it produces a **Pareto front**:
+
+  * Each solution is **non-dominated** (no other trial is strictly better in all objectives).
+  * Example: one hyperparameter set may minimize displacement error but allow slightly higher drop rate; another may minimize constraint error but distort coordinates more.
+
+* **Result:** You get a **set of trade-off solutions**:
+
+  * Some are good at preserving stage geometry.
+  * Others are good at maximizing overlap matches.
+  * Others balance both.
+
+You (the experimenter) then **choose** based on your priority:
+
+* If geometric accuracy is most important → pick low displacement RMS.
+* If robust matching coverage is key → pick low drop penalty.
+* If strict adherence to SIFT constraints matters → pick low constraint RMS.
+
+---
+
+# 📊 Why Multi-Objective is Valuable
+
+* **Single-objective** forces you to choose weights (α, β) in advance.
+* **Multi-objective** lets the algorithm **explore trade-offs automatically**, without committing to one weighting scheme.
+* Later, you can inspect the Pareto front and select the most practical compromise.
+
+---
+
+✅ In short:
+**`multi_objective`** reframes your stitching evaluation as **three competing goals** — constraint fit, displacement preservation, and match coverage — and uses Optuna’s NSGA-II to find a diverse set of optimal trade-offs, rather than a single “best” solution.
+
+---
+
+Do you want me to also show you **what the Pareto front might look like** (e.g., plotting simulated trade-offs between the three objectives)? That could help visualize why this multi-objective setup is powerful.
