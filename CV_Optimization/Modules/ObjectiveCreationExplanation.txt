@@ -1,7 +1,3 @@
-Got it — let’s zoom in on **`ObjectiveCreation.py`**, with special focus on the **multi-objective part**, since that’s the most nuanced piece of your pipeline.
-
----
-
 # 🔎 **ObjectiveCreation.py Overview**
 
 This module defines how to **score the stitching pipeline** for Optuna.
