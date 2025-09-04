@@ -160,3 +160,10 @@ This repository provides a modular pipeline to stitch and geometrically correct 
 * **Warped global solution:** Try `log_capped` or `uniform` weights, increase `lambda_reg`, or check for mislabeled neighbors that inject contradictory rules.  
 
 ---
+
+## Technologies
+
+* **Languages**: Python
+* **Libraries**: OpenCV (SIFT, RANSAC), scikit-learn (DBSCAN, KD-Tree), NumPy, Pandas, Optuna (HPO), Matplotlib
+* **Optimization**: Regularized least-squares, multi-objective NSGA-II
+* **Workflow**: Modular design with dataset registry, CV folds, and HPO orchestration
