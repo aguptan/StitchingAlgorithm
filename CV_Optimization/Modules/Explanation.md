@@ -1,8 +1,4 @@
-Perfect — let’s lay out the **data flow step-by-step**, showing how your three new modules (`DatasetLoading`, `CrossValidationTesting`, `ObjectiveCreation`) connect raw input → stitching → scoring → Optuna tuning.
-
----
-
-# 🔄 End-to-End Data Flow
+# End-to-End Data Flow
 
 ## **Step 1: Dataset Registry and Preloading**
 
