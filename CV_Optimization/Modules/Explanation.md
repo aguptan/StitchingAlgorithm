@@ -94,7 +94,7 @@
      * Optuna proposes hyperparameters (λ, weight method, ratio threshold, min matches, etc.).
      * Runs stitching pipeline on **inner folds**.
      * Averages validation scores.
-  2. **Pruning:** Bad trials are cut early (MedianPruner).
+  2. **Pruning:** Bad trials are cut early (MedianPruner); Pruning doesnt work for multi-objective hyperparameter optimization
   3. **Multi-objective option:** Uses NSGA-II to find Pareto-optimal trade-offs between objectives.
 * **Output:**
 
