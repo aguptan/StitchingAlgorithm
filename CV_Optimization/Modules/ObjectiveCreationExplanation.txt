@@ -73,7 +73,7 @@ Instead of collapsing everything into one score, this treats it as **three separ
 
 ---
 
-### 🔹 How Multi-Objective Optimization Works Here
+### How Multi-Objective Optimization Works 
 
 * **Algorithm:** Optuna uses **NSGA-II** (a genetic algorithm for multi-objective search).
 
@@ -96,7 +96,7 @@ You (the experimenter) then **choose** based on your priority:
 
 ---
 
-# 📊 Why Multi-Objective is Valuable
+# Why Multi-Objective is Valuable
 
 * **Single-objective** forces you to choose weights (α, β) in advance.
 * **Multi-objective** lets the algorithm **explore trade-offs automatically**, without committing to one weighting scheme.
@@ -104,9 +104,7 @@ You (the experimenter) then **choose** based on your priority:
 
 ---
 
-✅ In short:
+In short:
 **`multi_objective`** reframes your stitching evaluation as **three competing goals** — constraint fit, displacement preservation, and match coverage — and uses Optuna’s NSGA-II to find a diverse set of optimal trade-offs, rather than a single “best” solution.
 
----
 
-Do you want me to also show you **what the Pareto front might look like** (e.g., plotting simulated trade-offs between the three objectives)? That could help visualize why this multi-objective setup is powerful.
