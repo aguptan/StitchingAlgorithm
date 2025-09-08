@@ -107,7 +107,7 @@ Perfect — let’s lay out the **data flow step-by-step**, showing how your thr
 
 ---
 
-# 📊 Big Picture: Flow Summary
+# Big Picture: Flow Summary
 
 1. **Load datasets** → (`DatasetLoading`) builds registry & preloads images, coordinates, neighbors, overlaps.
 2. **Build folds** → (`CrossValidationTesting`) defines outer/inner CV splits.
@@ -117,9 +117,6 @@ Perfect — let’s lay out the **data flow step-by-step**, showing how your thr
 
 ---
 
-⚡ In short:
+In short:
 **Raw tile images + stage coordinates → \[DatasetLoading] → CV splits → \[CrossValidationTesting] → Stitching run → \[DatasetLoading] → Error/penalty scoring → \[ObjectiveCreation] → Hyperparameter search (Optuna).**
 
----
-
-Would you like me to also **draw a flow diagram** (boxes + arrows) so you can literally see how each module connects to the next?
